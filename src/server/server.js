@@ -34,5 +34,6 @@ app.post("/add", (req, res) => {
   projectData.longitude = req.body.longitude;
   projectData.latitude = req.body.latitude;
   projectData.country = req.body.country;
+  projectData.date = req.body.date;
   res.send(projectData);
 });

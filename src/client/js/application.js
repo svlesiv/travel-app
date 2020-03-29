@@ -1,19 +1,15 @@
 //  Global Variables
 const cityInputElement = document.getElementById("city");
+const dateElement = document.getElementById("date");
 
 const latitudeElement = document.getElementById("latitude");
 const longitudeElement = document.getElementById("longitude");
 const countryElement = document.getElementById("country");
+const dateOutputElement = document.getElementById("dateOutput");
 const submitBtn = document.getElementById("generate");
 
 const GEONAMES_URL = "http://api.geonames.org/searchJSON?q=";
 const GEONAMES_USERNAME = "svlesiv";
-
-// Creates and formats a new date.
-const getCurrentDate = () => {
-  const d = new Date();
-  return d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
-};
 
 // Changes innerHTML properties of existing DOM elements.
 const updateUI = data => {
@@ -24,6 +20,7 @@ const updateUI = data => {
   latitudeElement.innerHTML = data.latitude;
   longitudeElement.innerHTML = data.longitude;
   countryElement.innerHTML = data.country;
+  dateOutputElement.innerHTML = data.date;
 };
 
 // Function to GET Web API Data.
@@ -60,6 +57,7 @@ const postData = async (url = "", data = {}) => {
 const submitData = (event) => {
   event.preventDefault();
   const cityValue = cityInputElement.value;
+  const dateValue = dateElement.value;
 
   getLatLongInfo(GEONAMES_URL, cityValue, GEONAMES_USERNAME) // get Web API Data
     .then(
@@ -69,7 +67,8 @@ const submitData = (event) => {
             // post data to 'add' route
             longitude: geonames[0].lng,
             latitude: geonames[0].lat,
-            country: geonames[0].countryName
+            country: geonames[0].countryName,
+            date: dateValue,
           });
         }
       },
