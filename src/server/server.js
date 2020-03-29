@@ -25,13 +25,14 @@ const port = 3000;
 app.listen(port, () => console.log(`running on localhost: ${port}`));
 
 // Get Route.
-app.get("/all", (req, res) => {
-  res.send(projectData);
+app.get("/", (req, res) => {
+  res.sendFile("dist/index.html");
 });
 
 // Post Route.
 app.post("/add", (req, res) => {
-  projectData.temperature = req.body.temperature;
-  projectData.date = req.body.date;
-  projectData.userResponse = req.body.userFeelings;
+  projectData.longitude = req.body.longitude;
+  projectData.latitude = req.body.latitude;
+  projectData.country = req.body.country;
+  res.send(projectData);
 });

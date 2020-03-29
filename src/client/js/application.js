@@ -1,15 +1,13 @@
 //  Global Variables
-const zipInputElement = document.getElementById("zip");
-const userFeelingsInputElement = document.getElementById("feelings");
+const cityInputElement = document.getElementById("city");
 
-const dateElement = document.getElementById("date");
-const tempElement = document.getElementById("temp");
-const contentElement = document.getElementById("content");
+const latitudeElement = document.getElementById("latitude");
+const longitudeElement = document.getElementById("longitude");
+const countryElement = document.getElementById("country");
 const submitBtn = document.getElementById("generate");
 
-const baseURL = "https://api.openweathermap.org/data/2.5/weather";
-// Personal API Key for OpenWeatherMap API
-const apiKey = "7d34d0d51c4d8414e836358a1c769e59";
+const GEONAMES_URL = "http://api.geonames.org/searchJSON?q=";
+const GEONAMES_USERNAME = "svlesiv";
 
 // Creates and formats a new date.
 const getCurrentDate = () => {
@@ -23,19 +21,14 @@ const updateUI = data => {
     return null;
   }
 
-  tempElement.innerHTML = data.temperature;
-  dateElement.innerHTML = data.date;
-  contentElement.innerHTML = data.userResponse;
+  latitudeElement.innerHTML = data.latitude;
+  longitudeElement.innerHTML = data.longitude;
+  countryElement.innerHTML = data.country;
 };
 
 // Function to GET Web API Data.
-const getWeatherInfo = async (baseURL, zipValue, apiKey) => {
-  if (!zipValue) {
-    window.alert("Please enter a zip code");
-    return null;
-  }
-
-  const url = `${baseURL}?zip=${zipValue}&APPID=${apiKey}`;
+const getLatLongInfo = async (baseURL, city, username) => {
+  const url = `${baseURL}${city}&maxRows=10&username=${username}`;
   const response = await fetch(url);
 
   try {
@@ -63,36 +56,28 @@ const postData = async (url = "", data = {}) => {
   }
 };
 
-// Function to GET Project Data.
-const getProjectData = async () => {
-  const request = await fetch("/all");
-
-  try {
-    return await request.json();
-  } catch (err) {
-    console.warn(err);
-  }
-};
-
 // Function called by event listener to submit data.
-const submitData = () => {
-  const zipValue = zipInputElement.value;
+const submitData = (event) => {
+  event.preventDefault();
+  const cityValue = cityInputElement.value;
 
-  getWeatherInfo(baseURL, zipValue, apiKey) // get Web API Data
+  getLatLongInfo(GEONAMES_URL, cityValue, GEONAMES_USERNAME) // get Web API Data
     .then(
-      data => {
-        data
-          ? postData("/add", {
-              // post data to 'add' route
-              temperature: data.main.temp,
-              date: getCurrentDate(),
-              userFeelings: userFeelingsInputElement.value
-            })
-          : null;
+      ({ geonames }) => {
+        if (geonames) {
+          return postData("http://localhost:3000/add", {
+            // post data to 'add' route
+            longitude: geonames[0].lng,
+            latitude: geonames[0].lat,
+            country: geonames[0].countryName
+          });
+        }
       },
       err => console.warn(err)
     )
-    .then(() => getProjectData().then(data => updateUI(data))); // update existing DOM elements
+    .then(data => {
+      updateUI(data);
+    }); // update existing DOM elements
 };
 
 export const handleSubmit = submitBtn.addEventListener("click", submitData);
