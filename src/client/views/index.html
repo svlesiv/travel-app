@@ -6,24 +6,29 @@
   </head>
   <body>
     <main id="app">
-      <header class="holder headline">
-        Travel App
+      <header>
+        <h1>Travel App</h1>
       </header>
+
       <form>
-        <label for="city">Where are you going?</label>
+        <label for="city">My trip to:</label>
         <input type="text" id="city" placeholder="Please enter the city" />
+
+        <label for="date">Departing:</label>
         <input type="date" id="date" />
-        <button id="generate">Submit</button>
+
+        <button id="submit-button">Submit</button>
       </form>
-      <div class="holder entry">
-        <div class="title">Most Recent Entry</div>
-        <div id="entryHolder">
-          <div id="latitude"></div>
-          <div id="longitude"></div>
-          <div id="country"></div>
-          <div id="dateOutput"></div>
-        </div>
-      </div>
+
+      <section>
+        <header></header>
+        <p id="summary"></p>
+        <p id="min"></p>
+        <p id="max"></p>
+        <p id="dateOutput"></p>
+        <p id="daysDiff"></p>
+        <p id="country"></p>
+      </section>
     </main>
   </body>
 </html>

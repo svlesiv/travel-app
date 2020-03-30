@@ -31,9 +31,8 @@ app.get("/", (req, res) => {
 
 // Post Route.
 app.post("/add", (req, res) => {
-  projectData.longitude = req.body.longitude;
-  projectData.latitude = req.body.latitude;
-  projectData.country = req.body.country;
-  projectData.date = req.body.date;
+  projectData.summary = req.body.summary;
+  projectData.max = req.body.max;
+  projectData.min = req.body.min;
   res.send(projectData);
 });
