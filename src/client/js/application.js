@@ -48,17 +48,13 @@ const getPhoto = async (baseURL, apiKey, city) => {
 // Function to GET Web API Data.
 const getWeatherInfo = async (baseURL, apiKey, longitude, latitude, time) => {
   // https://stackoverflow.com/questions/16767301/calculate-difference-between-2-timestamps-using-javascript
-  const currenDateTimestamp = Date.now() / 1000;
-  // @TODO: handle timezone
+  const currenDateTimestamp = new Date() / 1000;
   let inputTimestamp = Date.parse(time) / 1000;
-  const daysDifference = Math.floor(
+  const daysDifference = Math.ceil(
     (inputTimestamp - currenDateTimestamp) / 86400
   );
 
   daysDiff = daysDifference;
-
-  // @TODO: handle if provided past date
-  // inputTimestamp < currenDateTimestamp ? ...
 
   // if more than 7 days, select a day 1 year ago.
   if (inputTimestamp > currenDateTimestamp && daysDifference > 7) {
