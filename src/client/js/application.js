@@ -21,11 +21,14 @@ const PIXABAY_API_KEY = "15803468-e3dd677c7195cf5f44c551a6f";
 let country, daysDiff, summary, min, max, imgSrc;
 
 // Changes innerHTML properties of existing DOM elements.
-const updateUI = () => {
+const updateUI = res => {
+  const { summary, min, max, date, daysDiff, country, imgSrc } = res;
+
+  // update DOM elements
   summaryElement.innerHTML = summary;
   minElement.innerHTML = min;
   maxElement.innerHTML = max;
-  dateOutputElement.innerHTML = dateElement.value;
+  dateOutputElement.innerHTML = date;
   daysDiffElement.innerHTML = daysDiff;
   countryElement.innerHTML = country;
   cityPhotoElement.setAttribute("src", imgSrc);
@@ -34,6 +37,7 @@ const updateUI = () => {
 const getPhoto = async (baseURL, apiKey, city) => {
   const url = `${baseURL}?key=${apiKey}&q=${city}&image_type=photo`;
   const response = await fetch(url);
+
   try {
     return await response.json();
   } catch (err) {
@@ -63,6 +67,7 @@ const getWeatherInfo = async (baseURL, apiKey, longitude, latitude, time) => {
 
   const url = `${baseURL}/${apiKey}/${longitude},${latitude},${inputTimestamp}`;
   const response = await fetch(url);
+
   try {
     return await response.json();
   } catch (err) {
@@ -83,26 +88,27 @@ const getLatLongInfo = async (baseURL, city, username) => {
 };
 
 // Function to POST data.
-// const postData = async (url = "", data = {}) => {
-//   const response = await fetch(url, {
-//     method: "POST",
-//     credentials: "same-origin",
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify(data)
-//   });
+const postData = async (url = "", data = {}) => {
+  const response = await fetch(url, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
 
-//   try {
-//     return await response.json();
-//   } catch (err) {
-//     console.warn(err);
-//   }
-// };
+  try {
+    return await response.json();
+  } catch (err) {
+    console.warn(err);
+  }
+};
 
 // Function called by event listener to submit data.
 const submitData = event => {
   event.preventDefault();
+
   const cityValue = cityInputElement.value;
   const dateValue = dateElement.value;
 
@@ -139,7 +145,17 @@ const submitData = event => {
                 imgSrc = hits[0].webformatURL;
               }
             })
-            .then(() => updateUI());
+            .then(() =>
+              postData("http://localhost:3000/add", {
+                summary,
+                max,
+                min,
+                date: dateElement.value,
+                daysDiff,
+                country,
+                imgSrc
+              }).then(res => updateUI(res))
+            );
         });
     });
 };
