@@ -121,8 +121,8 @@ const submitData = event => {
       getWeatherInfo(
         DARK_SKY_URL,
         DARK_SKY_API_KEY,
-        longitude,
         latitude,
+        longitude,
         dateValue
       )
         .then(({ daily }) => {
