@@ -7,6 +7,7 @@ const summaryElement = document.getElementById("summary");
 const minElement = document.getElementById("min");
 const maxElement = document.getElementById("max");
 const dateOutputElement = document.getElementById("dateOutput");
+const cityOutputElement = document.getElementById("cityOutput");
 const daysDiffElement = document.getElementById("daysDiff");
 const countryElement = document.getElementById("country");
 const cityPhotoElement = document.getElementById("city-photo");
@@ -18,11 +19,13 @@ const DARK_SKY_API_KEY = "9da39828f1d54c218d3ec4eff7240250";
 const PIXABAY_URL = "https://pixabay.com/api/";
 const PIXABAY_API_KEY = "15803468-e3dd677c7195cf5f44c551a6f";
 
-let country, daysDiff, summary, min, max, imgSrc;
+let country, city, daysDiff, summary, min, max, imgSrc;
 
 // Changes innerHTML properties of existing DOM elements.
 const updateUI = res => {
-  const { summary, min, max, date, daysDiff, country, imgSrc } = res;
+  const { summary, min, max, date, daysDiff, country, imgSrc, city } = res;
+
+  console.log(city);
 
   // update DOM elements
   summaryElement.innerHTML = summary;
@@ -31,6 +34,8 @@ const updateUI = res => {
   dateOutputElement.innerHTML = date;
   daysDiffElement.innerHTML = daysDiff;
   countryElement.innerHTML = country;
+  // convert first letter to uppercase
+  cityOutputElement.innerHTML = city.charAt(0).toUpperCase() + city.slice(1);
   cityPhotoElement.setAttribute("src", imgSrc);
 };
 
@@ -115,10 +120,10 @@ const postData = async (url = "", data = {}) => {
 const submitData = event => {
   event.preventDefault();
 
-  const cityValue = cityInputElement.value;
+  city = cityInputElement.value;
   const dateValue = dateElement.value;
 
-  getLatLongInfo(GEONAMES_URL, cityValue, GEONAMES_USERNAME)
+  getLatLongInfo(GEONAMES_URL, city, GEONAMES_USERNAME)
     .then(({ geonames }) => {
       if (geonames) {
         country = geonames[0].countryName;
@@ -145,11 +150,11 @@ const submitData = event => {
           }
         })
         .then(() => {
-          getPhoto(PIXABAY_URL, PIXABAY_API_KEY, cityInputElement.value)
+          getPhoto(PIXABAY_URL, PIXABAY_API_KEY, city)
             .then(({ hits }) => {
               if (hits) {
                 // randomly select an image among available hits
-                const randomInt = Math.floor(Math.random() * (hits.length-1));
+                const randomInt = Math.floor(Math.random() * (hits.length - 1));
                 imgSrc = hits[randomInt].webformatURL;
               }
             })
@@ -161,6 +166,7 @@ const submitData = event => {
                 date: dateElement.value,
                 daysDiff,
                 country,
+                city,
                 imgSrc
               }).then(res => updateUI(res))
             );

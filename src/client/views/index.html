@@ -11,24 +11,44 @@
       </header>
 
       <form>
-        <label for="city">My trip to:</label>
-        <input type="text" id="city" placeholder="Please enter the city" />
+        <fieldset>
+          <legend>Where are you going?</legend>
 
-        <label for="date">Departing:</label>
-        <input type="date" id="date" />
+          <label for="city">My trip to:</label>
+          <input type="text" id="city" placeholder="Please enter the city" />
 
-        <button id="submit-button">Submit</button>
+          <label for="date">Departing:</label>
+          <input type="date" id="date" />
+
+          <button id="submit-button">Submit</button>
+        </fieldset>
       </form>
 
-      <section>
-        <header></header>
-        <p id="summary"></p>
-        <p id="min"></p>
-        <p id="max"></p>
-        <p id="dateOutput"></p>
-        <p id="daysDiff"></p>
-        <p id="country"></p>
-        <img id="city-photo"/>
+      <section class="card">
+        <div>
+          <img id="city-photo" />
+        </div>
+
+        <div>
+          <div class="card-header">
+            <p>
+              My trip to: <span id="country"></span>,
+              <span id="cityOutput"></span>
+            </p>
+            <p>Departing: <span id="dateOutput"></span></p>
+          </div>
+
+          <p>
+            The trip is
+            <span id="daysDiff"></span> days away.
+          </p>
+
+          <div class="weather-info">
+            <p>Typical weather for then is:</p>
+            <p>High: <span id="max"></span>, Low: <span id="min"></span></p>
+            <p id="summary"></p>
+          </div>
+        </div>
       </section>
     </main>
   </body>

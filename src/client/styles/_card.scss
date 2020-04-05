@@ -1,0 +1,24 @@
+.card {
+  display: flex;
+  margin: 2em 0;
+  background-color: $base-color-lighter;
+  padding: 1em;
+
+  p {
+    line-height: 1.3;
+  }
+
+  img {
+    max-width: 40vw;
+    padding-right: 1em;
+  }
+
+  .card-header {
+    @include large-font-size;
+    margin-bottom: 0.5em;
+  }
+
+  .weather-info {
+    margin-top: 1em;
+  }
+}

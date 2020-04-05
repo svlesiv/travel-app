@@ -6,7 +6,8 @@ projectData = {
   date: undefined,
   daysDiff: undefined,
   country: undefined,
-  imgSrc: undefined
+  imgSrc: undefined,
+  city: undefined
 };
 
 // Require Express to run server and routes.
@@ -47,9 +48,10 @@ app.post("/add", (req, res) => {
     date: req.body.date,
     daysDiff: req.body.daysDiff,
     country: req.body.country,
-    imgSrc: req.body.imgSrc
+    imgSrc: req.body.imgSrc,
+    city: req.body.city,
   };
-
+  
   // send response with projectData
   res.send(projectData);
 });

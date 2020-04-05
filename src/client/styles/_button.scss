@@ -1,0 +1,18 @@
+button {
+  @include medium-font-size;
+  background-color: $base-color-lighter;
+  color: $accent-color;
+  border: 1px solid $accent-color;
+  border-radius: 2px;
+  padding: 0.6em 1.2em;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:active,
+  &:hover,
+  &:focus {
+    outline: none;
+    color: $base-text-color;
+    border-color: adjust-hue($accent-color, 45deg);
+  }
+}

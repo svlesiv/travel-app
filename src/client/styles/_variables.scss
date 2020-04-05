@@ -1,0 +1,15 @@
+/*color variables*/
+$base-color: rgba(12, 12, 12, 1);
+$base-color-lighter: lighten($base-color, 3);
+$accent-color:hsl(95, 84%, 78%);
+$accent-complementary-color: complement($accent-color);
+$base-text-color: rgba(200, 200, 200, 1);
+
+/*fonts*/
+$font-family-header:"Playfair Display", serif;
+$font-family-body:"Raleway", Arial, Helvetica, sans-serif;
+
+/*media*/
+$mobile-width: 551px;
+$tablet-width: 768px;
+$desktop-width: 1024px;

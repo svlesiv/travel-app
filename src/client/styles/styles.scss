@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display:400,900");
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+
+@import "resets";
+@import "variables";
+@import "mixins";
+@import "form";
+@import "button";
+@import "card";
+
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 5vh 5vw;
+  background-color: $base-color;
+  color: $base-text-color;
+  font-family: $font-family-body;
+
+  header {
+    @include xx-large-font-size;
+    padding-bottom: 1em;
+  }
+}

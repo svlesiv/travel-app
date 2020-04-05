@@ -1,0 +1,33 @@
+form {
+  width: 60vw;
+
+  fieldset {
+    border: 1px solid $accent-color;
+    border-radius: 5px;
+    padding: 1em;
+    @include large-font-size;
+    background-color: $base-color-lighter;
+    
+    label {
+      display: block;
+      @include medium-font-size;
+      margin-bottom: 0.5em;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      margin-bottom: 2em;
+      border: none;
+      border-bottom: 1px solid $accent-color;
+      background-color: $base-color-lighter;
+      color: $base-text-color;
+      font-family: "Raleway", Arial, Helvetica, sans-serif;
+      @include medium-font-size;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

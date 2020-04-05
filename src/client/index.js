@@ -1,5 +1,5 @@
 import { handleSubmit } from "./js/application";
 
-import "./styles/style.scss";
+import "./styles/styles.scss";
 
 export { handleSubmit };
