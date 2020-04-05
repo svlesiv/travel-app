@@ -42,3 +42,10 @@ body {
     margin: 1em;
   }
 }
+
+@include desktop {
+  body {
+    max-width: 70vw;
+    margin: auto;
+  }
+}

@@ -1,5 +1,5 @@
 form {
-  width: 60vw;
+  width: 100%;
 
   fieldset {
     border: 1px solid $accent-color;
@@ -7,7 +7,7 @@ form {
     padding: 1em;
     @include large-font-size;
     background-color: $base-color-lighter;
-    
+
     label {
       display: block;
       @include medium-font-size;
@@ -29,5 +29,11 @@ form {
         outline: none;
       }
     }
+  }
+}
+
+@include desktop {
+  form {
+    margin-bottom: 1.5em;
   }
 }
