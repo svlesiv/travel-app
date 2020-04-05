@@ -30,4 +30,15 @@ body {
     @include xx-large-font-size;
     padding-bottom: 1em;
   }
+
+  .loading,
+  .card {
+    display: none;
+  }
+
+  .loading {
+    color: $accent-color;
+    @include x-large-font-size;
+    margin: 1em;
+  }
 }

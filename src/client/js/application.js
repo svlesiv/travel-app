@@ -11,6 +11,8 @@ const cityOutputElement = document.getElementById("cityOutput");
 const daysDiffElement = document.getElementById("daysDiff");
 const countryElement = document.getElementById("country");
 const cityPhotoElement = document.getElementById("city-photo");
+const cardElement = document.getElementById("card");
+const loadingElement = document.getElementById("loading");
 
 const GEONAMES_URL = "http://api.geonames.org/searchJSON?q=";
 const GEONAMES_USERNAME = "svlesiv";
@@ -25,8 +27,6 @@ let country, city, daysDiff, summary, min, max, imgSrc;
 const updateUI = res => {
   const { summary, min, max, date, daysDiff, country, imgSrc, city } = res;
 
-  console.log(city);
-
   // update DOM elements
   summaryElement.innerHTML = summary;
   minElement.innerHTML = min;
@@ -37,6 +37,9 @@ const updateUI = res => {
   // convert first letter to uppercase
   cityOutputElement.innerHTML = city.charAt(0).toUpperCase() + city.slice(1);
   cityPhotoElement.setAttribute("src", imgSrc);
+
+  loadingElement.style.display = 'none';
+  cardElement.style.display = 'flex';
 };
 
 const getPhoto = async (baseURL, apiKey, city) => {
@@ -119,6 +122,8 @@ const postData = async (url = "", data = {}) => {
 // Function called by event listener to submit data.
 const submitData = event => {
   event.preventDefault();
+
+  loadingElement.style.display = "block";
 
   city = cityInputElement.value;
   const dateValue = dateElement.value;
