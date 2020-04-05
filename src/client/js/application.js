@@ -13,6 +13,7 @@ const countryElement = document.getElementById("country");
 const cityPhotoElement = document.getElementById("city-photo");
 const cardElement = document.getElementById("card");
 const loadingElement = document.getElementById("loading");
+const predictionElement = document.getElementById("weather-prediction");
 
 const GEONAMES_URL = "http://api.geonames.org/searchJSON?q=";
 const GEONAMES_USERNAME = "svlesiv";
@@ -26,6 +27,14 @@ let country, city, daysDiff, summary, min, max, imgSrc;
 // Changes innerHTML properties of existing DOM elements.
 const updateUI = res => {
   const { summary, min, max, date, daysDiff, country, imgSrc, city } = res;
+
+  // Depending on when the trip is, display a message which indicates 
+  // whether the forecast is precise.
+  if (daysDiff <= 7 && daysDiff >= 0) {
+    predictionElement.innerHTML = "The weather for this days is:"
+  } else {
+    predictionElement.innerHTML = "Typical weather for that day is:"
+  }
 
   // update DOM elements
   summaryElement.innerHTML = summary;
