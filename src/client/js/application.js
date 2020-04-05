@@ -35,11 +35,21 @@ const updateUI = res => {
 };
 
 const getPhoto = async (baseURL, apiKey, city) => {
-  const url = `${baseURL}?key=${apiKey}&q=${city}&image_type=photo`;
+  let url = `${baseURL}?key=${apiKey}&q=${city}&image_type=photo`;
   const response = await fetch(url);
 
   try {
-    return await response.json();
+    return await response.json().then(res => {
+      // if cannot find image of a provided city
+      // fall back to a country
+      if (res.totalHits === 0) {
+        url = `${baseURL}?key=${apiKey}&q=${country}&image_type=photo`;
+
+        return fetch(url).then(res => res.json());
+      }
+
+      return res;
+    });
   } catch (err) {
     console.warn(err);
   }
@@ -108,7 +118,7 @@ const submitData = event => {
   const cityValue = cityInputElement.value;
   const dateValue = dateElement.value;
 
-  getLatLongInfo(GEONAMES_URL, cityValue, GEONAMES_USERNAME) // get Web API Data
+  getLatLongInfo(GEONAMES_URL, cityValue, GEONAMES_USERNAME)
     .then(({ geonames }) => {
       if (geonames) {
         country = geonames[0].countryName;
@@ -138,7 +148,9 @@ const submitData = event => {
           getPhoto(PIXABAY_URL, PIXABAY_API_KEY, cityInputElement.value)
             .then(({ hits }) => {
               if (hits) {
-                imgSrc = hits[0].webformatURL;
+                // randomly select an image among available hits
+                const randomInt = Math.floor(Math.random() * (hits.length-1));
+                imgSrc = hits[randomInt].webformatURL;
               }
             })
             .then(() =>
