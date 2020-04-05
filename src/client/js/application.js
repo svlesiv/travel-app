@@ -13,6 +13,7 @@ const countryElement = document.getElementById("country");
 const cityPhotoElement = document.getElementById("city-photo");
 const cardElement = document.getElementById("card");
 const loadingElement = document.getElementById("loading");
+const errorElement = document.getElementById("error");
 const predictionElement = document.getElementById("weather-prediction");
 
 const GEONAMES_URL = "http://api.geonames.org/searchJSON?q=";
@@ -28,12 +29,12 @@ let country, city, daysDiff, summary, min, max, imgSrc;
 const updateUI = res => {
   const { summary, min, max, date, daysDiff, country, imgSrc, city } = res;
 
-  // Depending on when the trip is, display a message which indicates 
+  // Depending on when the trip is, display a message which indicates
   // whether the forecast is precise.
   if (daysDiff <= 7 && daysDiff >= 0) {
-    predictionElement.innerHTML = "The weather for this days is:"
+    predictionElement.innerHTML = "The weather for this days is:";
   } else {
-    predictionElement.innerHTML = "Typical weather for that day is:"
+    predictionElement.innerHTML = "Typical weather for that day is:";
   }
 
   // update DOM elements
@@ -47,8 +48,8 @@ const updateUI = res => {
   cityOutputElement.innerHTML = city.charAt(0).toUpperCase() + city.slice(1);
   cityPhotoElement.setAttribute("src", imgSrc);
 
-  loadingElement.style.display = 'none';
-  cardElement.style.display = 'flex';
+  loadingElement.style.display = "none";
+  cardElement.style.display = "flex";
 };
 
 const getPhoto = async (baseURL, apiKey, city) => {
@@ -136,6 +137,19 @@ const submitData = event => {
 
   city = cityInputElement.value;
   const dateValue = dateElement.value;
+
+  const errorMsg = Client.validateForm(city, dateValue);
+
+  // if errorMsg is not empty, hide loading element and
+  // display error message received from the function
+  if (errorMsg) {
+    loadingElement.style.display = "none";
+    errorElement.style.display = "block";
+
+    errorElement.innerHTML = errorMsg;
+    window.setTimeout(() => (errorElement.innerHTML = ""), 3000);
+    return;
+  }
 
   getLatLongInfo(GEONAMES_URL, city, GEONAMES_USERNAME)
     .then(({ geonames }) => {

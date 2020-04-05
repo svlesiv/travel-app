@@ -41,6 +41,12 @@ body {
     @include x-large-font-size;
     margin: 1em;
   }
+
+  .error {
+    color: $error-color;
+    @include x-large-font-size;
+    margin-top: 2em;
+  }
 }
 
 @include desktop {

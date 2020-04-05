@@ -2,7 +2,7 @@
 $base-color: rgba(12, 12, 12, 1);
 $base-color-lighter: lighten($base-color, 3);
 $accent-color:hsl(95, 84%, 78%);
-$accent-complementary-color: complement($accent-color);
+$error-color: rgb(250, 92, 83);
 $base-text-color: rgba(200, 200, 200, 1);
 
 /*fonts*/
