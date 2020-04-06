@@ -1,3 +1,13 @@
 {
-  "presets": ["@babel/preset-env"]
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        // https://medium.com/@binyamin/enabling-async-await-and-generator-functions-in-babel-node-and-express-71e941b183e2
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ]
 }

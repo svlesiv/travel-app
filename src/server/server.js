@@ -1,5 +1,5 @@
 // projectData object as endpoint for all routes.
-projectData = {
+let projectData = {
   summary: undefined,
   max: undefined,
   min: undefined,
@@ -31,7 +31,12 @@ app.use(express.static("dist"));
 
 // Set up the server.
 const port = 3000;
-app.listen(port, () => console.log(`running on localhost: ${port}`));
+
+// https://blog.campvanilla.com/jest-expressjs-and-the-eaddrinuse-error-bac39356c33a
+// we don't need to listen during testing
+if (process.env.NODE_ENV !== "test") {
+  app.listen(port, () => console.log(`running on localhost: ${port}`));
+}
 
 // Get Route.
 app.get("/", (req, res) => {
@@ -49,9 +54,11 @@ app.post("/add", (req, res) => {
     daysDiff: req.body.daysDiff,
     country: req.body.country,
     imgSrc: req.body.imgSrc,
-    city: req.body.city,
+    city: req.body.city
   };
-  
+
   // send response with projectData
   res.send(projectData);
 });
+
+module.exports = app;
