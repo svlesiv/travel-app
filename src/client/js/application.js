@@ -140,7 +140,7 @@ const postData = async (url = "", data = {}) => {
 };
 
 // Function called by event listener to submit data.
-const submitData = event => {
+export const submitData = event => {
   event.preventDefault();
 
   loadingElement.style.display = "block";
