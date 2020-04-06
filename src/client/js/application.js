@@ -23,7 +23,17 @@ const DARK_SKY_API_KEY = "9da39828f1d54c218d3ec4eff7240250";
 const PIXABAY_URL = "https://pixabay.com/api/";
 const PIXABAY_API_KEY = "15803468-e3dd677c7195cf5f44c551a6f";
 
-let country, city, daysDiff, summary, min, max, imgSrc;
+// object to hold values after api calls
+const data = {
+  summary: undefined,
+  max: undefined,
+  min: undefined,
+  date: undefined,
+  daysDiff: undefined,
+  country: undefined,
+  imgSrc: undefined,
+  city: undefined
+};
 
 // Changes innerHTML properties of existing DOM elements.
 const updateUI = res => {
@@ -61,7 +71,7 @@ const getPhoto = async (baseURL, apiKey, city) => {
       // if cannot find image of a provided city
       // fall back to a country
       if (res.totalHits === 0) {
-        url = `${baseURL}?key=${apiKey}&q=${country}&image_type=photo`;
+        url = `${baseURL}?key=${apiKey}&q=${data['country']}&image_type=photo`;
 
         return fetch(url).then(res => res.json());
       }
@@ -82,7 +92,7 @@ const getWeatherInfo = async (baseURL, apiKey, longitude, latitude, time) => {
     (inputTimestamp - currenDateTimestamp) / 86400
   );
 
-  daysDiff = daysDifference;
+  data["daysDiff"] = daysDifference;
 
   // if more than 7 days, select a day 1 year ago.
   if (inputTimestamp > currenDateTimestamp && daysDifference > 7) {
@@ -135,10 +145,13 @@ const submitData = event => {
 
   loadingElement.style.display = "block";
 
-  city = cityInputElement.value;
-  const dateValue = dateElement.value;
+  data["city"] = cityInputElement.value;
+  data["date"] = dateElement.value;
 
-  const errorMsg = Client.validateForm(city, dateValue);
+  const errorMsg = Client.validateForm(
+    cityInputElement.value,
+    dateElement.value
+  );
 
   // if errorMsg is not empty, hide loading element and
   // display error message received from the function
@@ -151,10 +164,10 @@ const submitData = event => {
     return;
   }
 
-  getLatLongInfo(GEONAMES_URL, city, GEONAMES_USERNAME)
+  getLatLongInfo(GEONAMES_URL, data["city"], GEONAMES_USERNAME)
     .then(({ geonames }) => {
       if (geonames) {
-        country = geonames[0].countryName;
+        data["country"] = geonames[0].countryName;
 
         return {
           longitude: geonames[0].lng,
@@ -168,34 +181,27 @@ const submitData = event => {
         DARK_SKY_API_KEY,
         latitude,
         longitude,
-        dateValue
+        data["date"]
       )
         .then(({ daily }) => {
           if (daily) {
-            summary = daily.data[0].summary;
-            min = daily.data[0].temperatureMin;
-            max = daily.data[0].temperatureMax;
+            data["summary"] = daily.data[0].summary;
+            data["min"] = daily.data[0].temperatureMin;
+            data["max"] = daily.data[0].temperatureMax;
           }
         })
         .then(() => {
-          getPhoto(PIXABAY_URL, PIXABAY_API_KEY, city)
+          getPhoto(PIXABAY_URL, PIXABAY_API_KEY, data['city'])
             .then(({ hits }) => {
               if (hits) {
                 // randomly select an image among available hits
                 const randomInt = Math.floor(Math.random() * (hits.length - 1));
-                imgSrc = hits[randomInt].webformatURL;
+                data["imgSrc"] = hits[randomInt].webformatURL;
               }
             })
             .then(() =>
               postData("http://localhost:3000/add", {
-                summary,
-                max,
-                min,
-                date: dateElement.value,
-                daysDiff,
-                country,
-                city,
-                imgSrc
+                ...data
               }).then(res => updateUI(res))
             );
         });
