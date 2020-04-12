@@ -1,7 +1,7 @@
 # Overview
 This travel app obtains a trip location and date from the user, and displays weather and an image of the location using information retrieved from the external APIs (Geonames, Dark Sky, and Pixabay).
 
-![](./atravel-app-demo.gif)
+![](./travel-app-demo.gif)
 
 ## Installation
 - Clone the repository.
