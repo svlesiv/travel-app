@@ -5,11 +5,14 @@
     <title>Travel App</title>
   </head>
   <body>
+    <!-- header -->
     <header>
       <h1>Travel App</h1>
     </header>
 
+    <!-- main -->
     <main id="app">
+      <!-- form -->
       <form>
         <fieldset>
           <legend>Where are you going?</legend>
@@ -24,14 +27,20 @@
         </fieldset>
       </form>
 
-      <div class="loading" id="loading">...Loading</div>
-      <div class="error" id="error"></div>
+      <!-- status -->
+      <section>
+        <div class="loading" id="loading">...Loading</div>
+        <div class="error" id="error"></div>
+      </section>
 
+      <!-- card -->
       <section class="card" id="card">
+        <!-- photo -->
         <div>
           <img id="city-photo" />
         </div>
 
+        <!-- header -->
         <div>
           <div class="card-header">
             <p>
@@ -46,6 +55,7 @@
             <span id="daysDiff"></span> day(s) away.
           </p>
 
+          <!-- weather info -->
           <div class="weather-info">
             <p id="weather-prediction"></p>
             <p>High: <span id="max"></span>, Low: <span id="min"></span></p>
@@ -55,10 +65,12 @@
       </section>
     </main>
 
+    <!-- footer -->
     <footer>
       <p>&copy; 2020 Svitlana Lesiv</p>
     </footer>
 
+    <!-- service workers -->
     <script>
       // Check that service workers are supported.
       if ("serviceWorker" in navigator) {

@@ -14,5 +14,6 @@ button {
     outline: none;
     color: $base-text-color;
     border-color: adjust-hue($accent-color, 45deg);
+    background-color: lighten($base-color-lighter, 5);
   }
 }

@@ -4,6 +4,7 @@ $base-color-lighter: lighten($base-color, 3);
 $accent-color:hsl(95, 84%, 78%);
 $error-color: rgb(250, 92, 83);
 $base-text-color: rgba(200, 200, 200, 1);
+$base-text-color-darker: darken($base-text-color, 30);
 
 /*fonts*/
 $font-family-header:"Playfair Display", serif;

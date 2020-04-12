@@ -1,5 +1,3 @@
-// Testing the API Endpoints
-
 const request = require("supertest");
 const server = require("./server");
 

@@ -23,7 +23,7 @@ const DARK_SKY_API_KEY = "9da39828f1d54c218d3ec4eff7240250";
 const PIXABAY_URL = "https://pixabay.com/api/";
 const PIXABAY_API_KEY = "15803468-e3dd677c7195cf5f44c551a6f";
 
-// object to hold values after api calls
+// Object to hold values after api calls.
 const data = {
   summary: undefined,
   max: undefined,
@@ -35,7 +35,9 @@ const data = {
   city: undefined
 };
 
-// Changes innerHTML properties of existing DOM elements.
+//
+// This method changes innerHTML properties of existing DOM elements.
+//
 const updateUI = res => {
   const { summary, min, max, date, daysDiff, country, imgSrc, city } = res;
 
@@ -47,14 +49,14 @@ const updateUI = res => {
     predictionElement.innerHTML = "Typical weather for that day is:";
   }
 
-  // update DOM elements
+  // Update DOM elements.
   summaryElement.innerHTML = summary;
   minElement.innerHTML = min;
   maxElement.innerHTML = max;
   dateOutputElement.innerHTML = date;
   daysDiffElement.innerHTML = daysDiff;
   countryElement.innerHTML = country;
-  // convert first letter to uppercase
+  // Convert first letter to uppercase.
   cityOutputElement.innerHTML = city.charAt(0).toUpperCase() + city.slice(1);
   cityPhotoElement.setAttribute("src", imgSrc);
 
@@ -62,13 +64,18 @@ const updateUI = res => {
   cardElement.style.display = "flex";
 };
 
+//
+// This method gets image source data from Pixabay based on a city name,
+// and if no photo found for a given city, gets an image source based on 
+// a country name.
+//
 const getPhoto = async (baseURL, apiKey, city) => {
   let url = `${baseURL}?key=${apiKey}&q=${city}&image_type=photo`;
   const response = await fetch(url);
 
   try {
     return await response.json().then(res => {
-      // if cannot find image of a provided city
+      // if cannot find an image of a provided city
       // fall back to a country
       if (res.totalHits === 0) {
         url = `${baseURL}?key=${apiKey}&q=${data["country"]}&image_type=photo`;
@@ -83,7 +90,10 @@ const getPhoto = async (baseURL, apiKey, city) => {
   }
 };
 
-// Function to GET Web API Data.
+//
+// This method calculates the difference between the current day and input day,
+// and based on longitude, latitude, and time values gets weather data from Dark Sky.
+//
 const getWeatherInfo = async (baseURL, apiKey, longitude, latitude, time) => {
   // https://stackoverflow.com/questions/16767301/calculate-difference-between-2-timestamps-using-javascript
   const currenDateTimestamp = new Date() / 1000;
@@ -109,7 +119,9 @@ const getWeatherInfo = async (baseURL, apiKey, longitude, latitude, time) => {
   }
 };
 
-// Function to GET Web API Data.
+//
+// Based on city name, gets latitude and longitude data from Geonames.
+//
 const getLatLongInfo = async (baseURL, city, username) => {
   const url = `${baseURL}${city}&maxRows=10&username=${username}`;
   const response = await fetch(url);
@@ -153,8 +165,8 @@ export const submitData = event => {
     dateElement.value
   );
 
-  // if errorMsg is not empty, hide loading element and
-  // display error message received from the function
+  // If errorMsg is not empty, hide loading element and
+  // display error message received from the function.
   if (errorMsg) {
     loadingElement.style.display = "none";
     errorElement.style.display = "block";
@@ -164,6 +176,7 @@ export const submitData = event => {
     return;
   }
 
+  // get latitude and longitude
   getLatLongInfo(GEONAMES_URL, data["city"], GEONAMES_USERNAME)
     .then(({ geonames }) => {
       if (geonames) {
@@ -176,6 +189,7 @@ export const submitData = event => {
       }
     })
     .then(({ longitude, latitude }) => {
+      // get weather information
       getWeatherInfo(
         DARK_SKY_URL,
         DARK_SKY_API_KEY,
@@ -191,6 +205,7 @@ export const submitData = event => {
           }
         })
         .then(() => {
+          // get image source
           getPhoto(PIXABAY_URL, PIXABAY_API_KEY, data["city"])
             .then(({ hits }) => {
               if (hits) {
@@ -200,9 +215,10 @@ export const submitData = event => {
               }
             })
             .then(() =>
+              // call function to post data
               postData("http://localhost:3000/add", {
                 ...data
-              }).then(res => updateUI(res))
+              }).then(res => updateUI(res)) // update UI
             );
         });
     });

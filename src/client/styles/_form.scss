@@ -21,9 +21,13 @@ form {
       border: none;
       border-bottom: 1px solid $accent-color;
       background-color: $base-color-lighter;
-      color: $base-text-color;
+      color: $base-text-color-darker;
       font-family: "Raleway", Arial, Helvetica, sans-serif;
       @include medium-font-size;
+
+      &::placeholder {
+        color: $base-text-color-darker;
+      }
 
       &:focus {
         outline: none;
