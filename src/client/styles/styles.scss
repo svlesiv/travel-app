@@ -48,7 +48,7 @@ body {
 
   .error {
     color: $error-color;
-    @include x-large-font-size;
+    @include large-font-size;
     margin-top: 2em;
   }
 }
