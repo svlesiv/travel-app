@@ -71,7 +71,7 @@ const getPhoto = async (baseURL, apiKey, city) => {
       // if cannot find image of a provided city
       // fall back to a country
       if (res.totalHits === 0) {
-        url = `${baseURL}?key=${apiKey}&q=${data['country']}&image_type=photo`;
+        url = `${baseURL}?key=${apiKey}&q=${data["country"]}&image_type=photo`;
 
         return fetch(url).then(res => res.json());
       }
@@ -191,7 +191,7 @@ export const submitData = event => {
           }
         })
         .then(() => {
-          getPhoto(PIXABAY_URL, PIXABAY_API_KEY, data['city'])
+          getPhoto(PIXABAY_URL, PIXABAY_API_KEY, data["city"])
             .then(({ hits }) => {
               if (hits) {
                 // randomly select an image among available hits
@@ -208,4 +208,9 @@ export const submitData = event => {
     });
 };
 
-export const handleSubmit = submitBtn.addEventListener("click", submitData);
+export const handleSubmit = document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+    submitBtn.addEventListener("click", submitData);
+  }
+);
