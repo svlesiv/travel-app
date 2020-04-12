@@ -31,6 +31,10 @@ body {
     padding-bottom: 1em;
   }
 
+  main {
+    flex: 2;
+  }
+
   .loading,
   .card {
     display: none;
