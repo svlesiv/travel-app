@@ -20,13 +20,13 @@ describe("submit button", () => {
     jest.resetModules();
   });
 
-  test("submit button exists", () => {
+  test("submit button should exists", () => {
     expect(document.getElementById("submit-button")).toBeTruthy();
   });
 });
 
 describe("submitData", () => {
-  test("should verify that submitData is a fuction", () => {
+  test("submitData should be a fuction", () => {
     expect(submitData).toBeInstanceOf(Function);
   });
 });
