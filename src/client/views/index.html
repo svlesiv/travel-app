@@ -8,7 +8,7 @@
     <header>
       <h1>Travel App</h1>
     </header>
-    
+
     <main id="app">
       <form>
         <fieldset>
@@ -58,5 +58,15 @@
     <footer>
       <p>&copy; 2020 Svitlana Lesiv</p>
     </footer>
+
+    <script>
+      // Check that service workers are supported.
+      if ("serviceWorker" in navigator) {
+        // Use the window load event to keep the page load performant.
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/service-worker.js");
+        });
+      }
+    </script>
   </body>
 </html>
